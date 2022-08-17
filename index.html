@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Klaytn Snaps</title>
+    <link rel="icon" type="image/svg" href="./images/icon.svg" />
+  </head>
+
+  <body>
+    <h1>Klaytn Snaps</h1>
+    <details>
+      <summary>Instructions</summary>
+      <ul>
+        <li>First, click "Connect". Then, try out the other buttons!</li>
+        <li>Please note that:</li>
+        <ul>
+          <li>
+            The <code>snap.manifest.json</code> and
+            <code>package.json</code> must be located in the server root
+            directory..
+          </li>
+          <li>
+            The Snap bundle must be hosted at the location specified by the
+            <code>location</code> field of <code>snap.manifest.json</code>.
+          </li>
+        </ul>
+      </ul>
+    </details>
+    <br />
+
+    <button class="connect" style="margin-bottom: 1rem">Connect</button>
+    <div>
+      <div>
+        <span>Address: </span>
+        <span id="address"/>
+      </div>
+      <div>
+        <span>Balance: </span>
+        <span id="balance"/>
+      </div>
+    </div>
+
+    <div>
+      <label for="sendAddr">Send to: </label>
+      <input type="text" id="sendAddr"/>
+      <label for="amount">Amount: </label>
+      <input type="text" id="amount">
+      <button class="send">Send</button>
+    </div>
+
+  <script>
+    const snapId = `local:${window.location.href}`;
+
+    const connectButton = document.querySelector('button.connect');
+    const sendButton = document.querySelector('button.send')
+
+    connectButton.addEventListener('click', connect);
+    sendButton.addEventListener('click', send)
+
+    async function connect() {
+      try {
+        await ethereum.request({
+          method: 'wallet_enable',
+          params: [
+            {
+              wallet_snap: { [snapId]: {} },
+            },
+          ],
+        });
+
+        const address = await ethereum.request({
+          method: 'wallet_invokeSnap',
+          params: [snapId, { method: 'klay_getAddress' }],
+        });
+        const balance = await ethereum.request({
+          method: 'wallet_invokeSnap',
+          params: [snapId, { method: 'klay_getBalance' }], 
+        });
+
+        document.getElementById('address').innerHTML = address;
+        document.getElementById('balance').innerHTML = balance;
+      } catch (err) {
+        alert('Connect error: ' + err.message || err);
+      }
+    }
+
+    async function send() {
+      const sendAddr = document.getElementById('sendAddr').value;
+      const amount = document.getElementById('amount').value;
+
+      const sendSuccess = await ethereum.request({
+        method: 'wallet_invokeSnap',
+        params: [snapId, { method: 'klay_sendToken', params: { to: sendAddr, value: amount } }]
+      });
+
+      if (sendSuccess) {
+        const balance = await ethereum.request({
+          method: 'wallet_invokeSnap',
+          params: [snapId, { method: 'klay_getBalance' }], 
+        });
+        document.getElementById('balance').innerHTML = balance;
+        alert('Send success');
+      } else alert('Send fail');
+    }
+  </script>
+</html>

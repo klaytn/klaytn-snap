@@ -1,0 +1,23 @@
+{
+  "version": "1.0.0",
+  "description": "The Klaytn Snap.",
+  "proposedName": "klaytn-snap",
+  "source": {
+    "shasum": "L5Q+KYlZkun2JwDCciSuAo2PVhW/FTH4cGfg5+/Of50=",
+    "location": {
+      "npm": {
+        "filePath": "dist/bundle.js",
+        "packageName": "klaytn-snap",
+        "registry": "https://registry.npmjs.org",
+        "iconPath": "images/icon.svg"
+      }
+    }
+  },
+  "initialPermissions": {
+    "endowment:network-access": {},
+    "snap_confirm": {},
+    "snap_getBip44Entropy_8217": {},
+    "snap_manageState": {}
+  },
+  "manifestVersion": "0.1"
+}
