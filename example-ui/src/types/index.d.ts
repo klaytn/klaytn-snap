@@ -11,7 +11,7 @@ export interface ExportSeedRequest {
 }
 
 export interface ConfigureRequest {
-  method: "fil_configure";
+  method: "klay_config";
   params: {
     configuration: SnapConfig;
   };
@@ -59,7 +59,7 @@ export interface GetGasForMessageRequest {
   };
 }
 
-export interface sendTransactionRequest {
+export interface SendTransactionRequest {
   method: "klay_sendTransaction";
   params: MessageRequest
 }
@@ -76,7 +76,7 @@ export type MetamaskKlaytnRpcRequest =
   | SignMessageRawRequest
   | SendMessageRequest
   | GetGasForMessageRequest
-  | sendTransactionRequest;
+  | SendTransactionRequest;
 
 type Method = MetamaskKlaytnRpcRequest["method"];
 
@@ -143,9 +143,9 @@ export interface MessageSignature {
 }
 
 export interface SignMessageResponse {
-  signedMessage: SignedMessage;
-  confirmed: boolean;
-  error: Error;
+  message?: string;
+  messageHash?: string;
+  error?: Error;
 }
 
 export interface SignRawMessageResponse {
@@ -163,6 +163,8 @@ export interface MessageRequest {
   nonce?: number;
   method?: number;
   params?: string;
+  from?: string;
+  network?: string
 }
 
 export interface MessageGasEstimate {
@@ -175,6 +177,37 @@ export interface MessageGasEstimate {
 export interface MessageStatus {
   message: Message;
   cid: string;
+}
+
+export interface TransferRequest {
+  to: string;
+  value: string;
+  from: string;
+  network: string
+}
+
+
+export interface TransferStatus {
+  blockHash: string;
+  blockNumber: string;
+  contractAddress: string | null;
+  effectiveGasPrice: string;
+  from: string;
+  gas: string;
+  gasPrice: string;
+  gasUsed: string;
+  logs: string[];
+  logsBloom: string;
+  nonce: string;
+  senderTxHash: string;
+  signatures: { R: string; S: string; V: string }[];
+  status: string;
+  to: string;
+  transactionHash: string;
+  transactionIndex: string;
+  type: string;
+  typeInt: number;
+  value: string;
 }
 
 export type KlaytnNetwork = "cypress" | "baobab";
@@ -196,7 +229,7 @@ export interface KlaytnSnapApi {
     message: MessageRequest,
     maxFee?: string
   ): Promise<MessageGasEstimate>;
-  sendTransaction(params: MessageRequest): Promise<MessageStatus>;
+  sendTransaction(params: TransferRequest): Promise<TransferStatus>;
 }
 
 export interface KeyPair {

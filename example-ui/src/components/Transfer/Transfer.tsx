@@ -12,20 +12,17 @@ import {
 } from '@material-ui/core/';
 import { Alert } from "@material-ui/lab";
 import { KlaytnSnapApi } from "../../types";
-import {
-    // attoFilToFil, 
-    filToAttoFil
-} from "../../services/utils";
 
 interface ITransferProps {
     network: string,
     api: KlaytnSnapApi | null,
-    onNewMessageCallback: any
+    onNewMessageCallback: any,
+    address: string
 }
 
 type AlertSeverity = "success" | "warning" | "info" | "error";
 
-export const Transfer: React.FC<ITransferProps> = ({ network, api, onNewMessageCallback }) => {
+export const Transfer: React.FC<ITransferProps> = ({ network, api, onNewMessageCallback, address }) => {
     const [recipient, setRecipient] = useState<string>("");
     const [amount, setAmount] = useState<string>("");
     // const [gasLimit, setGasLimit] = useState<string>("0");
@@ -88,46 +85,10 @@ export const Transfer: React.FC<ITransferProps> = ({ network, api, onNewMessageC
 
     const onSubmit = useCallback(async () => {
         if (amount && recipient && api) {
-            // Temporary signature method until sending is implemented
-            console.log(network)
-            const signedMessageResponse = {
-                error: null,
-                confirmed: true,
-                signedMessage: {
-                    message: {
-                        to: recipient,
-                        from: '0xaea8d946b930db190f45d1c2a1782a2d8f48a0c5',
-                        // nonce: 0,
-                        value: amount,
-                        // gasfeecap: '100000',
-                        // gaspremium: '100000',
-                        // gaslimit: 100000,
-                        // method: 1,
-                        // params: amount,
-                        network
-                    },
-                    signature: {
-                        data: amount,
-                        type: 1,
-                    }
-                },
-            } || await api.signMessage({
-                to: recipient,
-                value: BigInt(filToAttoFil(amount)).toString(),
-                // gaslimit: Number(filToAttoFil(gasLimit)),
-                // gasfeecap: filToAttoFil(gasFeeCap),
-                // gaspremium: filToAttoFil(gasPremium)
-            });
-            if (signedMessageResponse.error != null) {
-                showAlert("error", "Error on signing message");
-            } else if (signedMessageResponse.error == null && !signedMessageResponse.confirmed) {
-                showAlert("info", "Signing message declined");
-            } else {
-                showAlert("info", `Message signature: ${signedMessageResponse.signedMessage.signature.data}`);
-                const txResult = await api.sendTransaction(signedMessageResponse.signedMessage.message);
-                if (txResult) showAlert('success', `Trasaction success!: ${txResult}`)
-                else showAlert('error', `Trasaction failed!: ${txResult}`)
-            }
+            const txResult = await api.sendTransaction({ to: recipient, value: amount, from: address, network });
+            console.log(txResult)
+            if (txResult?.transactionHash) showAlert('success', `Trasaction success with hash: ${txResult?.transactionHash}`)
+            else showAlert('error', `Trasaction failed with hash: ${txResult}`)
 
             // clear form
             setAmount("");

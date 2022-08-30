@@ -20,11 +20,9 @@ export const SignMessage = (props: SignMessageProps) => {
     const onSubmit = async () => {
         if (textFieldValue && props.api) {
             const rawMessage = textFieldValue || toHex(textFieldValue, { addPrefix: true });
-            console.log({ rawMessage })
             const sigResponse = await props.api.signMessage(rawMessage);
-            console.log({ sigResponse })
-            if (sigResponse.confirmed && sigResponse.error == null) {
-                // setModalBody(sigResponse.signature);
+            if (sigResponse.messageHash && !sigResponse.error) {
+                setModalBody(sigResponse.messageHash);
                 setModalOpen(true);
             }
             setTextFieldValue("");

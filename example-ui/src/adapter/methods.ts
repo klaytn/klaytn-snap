@@ -7,6 +7,8 @@ import {
   SnapConfig,
   MessageGasEstimate,
   SignRawMessageResponse,
+  TransferRequest,
+  TransferStatus,
 } from "../types";
 import { MetamaskKlaytnSnap } from "./snap";
 
@@ -14,36 +16,13 @@ async function sendSnapMethod<T>(
   request: MetamaskKlaytnRpcRequest,
   snapId: string
 ): Promise<T> {
-  try {
-    console.log({ snapId })
-    const res = await (window.ethereum.request({
-      method: snapId,
-      params: [request],
-    }) as Promise<T>);
-    console.log({
-      method: snapId,
-      params: [request],
-      success: true,
-      res
-    });
-    return res
-  }
-  catch (e) {
-    console.log({
-      method: snapId,
-      params: [request],
-      success: false
-    })
-    const res = await (window.ethereum.request({
-      method: snapId,
-      params: [request],
-    }) as Promise<T>);
-    return res
-  }
+  return await (window.ethereum.request({
+    method: snapId,
+    params: [request],
+  }) as Promise<T>);
 }
 
 export async function getAddress(this: MetamaskKlaytnSnap): Promise<string> {
-  console.log(this.snapId)
   return await sendSnapMethod({ method: "klay_getAddress" }, this.snapId);
 }
 
@@ -67,22 +46,8 @@ export async function configure(
   this: MetamaskKlaytnSnap,
   configuration: SnapConfig
 ): Promise<any> {
-  const fake = async () => ({
-    "derivationPath": "m/44'/461'/0'/0/0",
-    "network": "f",
-    "rpc": {
-      "token": "",
-      "url": "https://api.node.glif.io"
-    },
-    "unit": {
-      "decimals": 6,
-      "image": "https://cryptologos.cc/logos/Klaytn-fil-logo.svg?v=007",
-      "symbol": "FIL"
-    }
-  })
-  return fake();
   return await sendSnapMethod(
-    { method: "fil_configure", params: { configuration: configuration } },
+    { method: "klay_config", params: { configuration: configuration } },
     this.snapId
   );
 }
@@ -139,10 +104,10 @@ export async function calculateGasForMessage(
 
 export async function sendTransaction(
   this: MetamaskKlaytnSnap,
-  message: MessageRequest
-): Promise<MessageStatus> {
+  params: TransferRequest
+): Promise<TransferStatus> {
   return await sendSnapMethod(
-    { method: "klay_sendTransaction", params: message },
+    { method: "klay_sendTransaction", params },
     this.snapId
   );
 }

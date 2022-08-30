@@ -94,7 +94,6 @@ export const Dashboard = () => {
         return () => clearInterval(interval);
     }, [api, balance, setBalance, setBalanceChange, address]);
 
-    console.log(state.KlaytnSnap.isInstalled)
     return (
         <Container maxWidth="lg">
             <Grid direction="column" alignItems="center" justifyContent="center" container spacing={3}>
@@ -106,7 +105,7 @@ export const Dashboard = () => {
                         Klaytn-snap enables Klaytn network inside Metamask.
                     </Typography>
                 </Box>
-                <Box sx={{ display: state.KlaytnSnap.isInstalled ? "none" : "block"}}>
+                <Box sx={{ display: state.KlaytnSnap.isInstalled ? "none" : "block" }}>
                     <MetaMaskConnector />
                     <Footer />
                 </Box>
@@ -135,7 +134,7 @@ export const Dashboard = () => {
                     <Box m="1rem" />
                     <Grid container spacing={3} alignItems="stretch">
                         <Grid item md={6} xs={12}>
-                            <Transfer api={api} network={network} onNewMessageCallback={handleNewMessage} />
+                            <Transfer api={api} network={network} onNewMessageCallback={handleNewMessage} address={address} />
                         </Grid>
                         <Grid item md={6} xs={12}>
                             <SignMessage api={api} />
