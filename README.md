@@ -1,3 +1,5 @@
+Run snap:
+
 ```
 cd snap
 ```
@@ -14,7 +16,7 @@ yarn build
 yarn serve
 ```
 
-Open another terminal cd into example-ui
+Open another terminal and run example-ui
 ```
 cd example-ui
 ```
