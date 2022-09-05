@@ -1,24 +1,24 @@
-Run snap:
+# @klaytn/klaytn-snap
+## Setup
+
+```shell
+yarn install
+```
+## Building
+Run `yarn build` to build this snap
+
+Run `yarn build:clean` to remove old dist folder and re-build snap
+
+## Start demo
+Run `yarn serve` to start demo
+
+Access `http://localhost:9000` to start testing Klaytn snap. You can change port number in `snap.config.js` as well
+
+## Run Example
+The snap must be running
 
 ```
-cd snap
-```
-
-```
-yarn
-```
-
-```
-yarn build
-```
-
-```
-yarn serve
-```
-
-Open another terminal and run example-ui
-```
-cd example-ui
+cd example
 ```
 
 ```
