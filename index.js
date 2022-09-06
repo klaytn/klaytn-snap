@@ -34,8 +34,8 @@ document.getElementById("connectButton").onclick = async () => {
             }),
         ]);
 
-        document.getElementById("addressSpan").innerText = address;
-        document.getElementById("balanceSpan").innerText = balance;
+        document.getElementById("addressSpan").innerHTML = address;
+        document.getElementById("balanceSpan").innerHTML = balance;
     } catch (err) {
         console.error("Connect error: " + err.message || err);
     }
@@ -55,8 +55,11 @@ document.getElementById("rlpEncodedButton").onclick = async () => {
                 },
             ],
         });
-        document.getElementById("rlpEncodedCode").innerText =
-            JSON.stringify(account);
+        document.getElementById("rlpEncodedPre").innerHTML = JSON.stringify(
+            account,
+            null,
+            2
+        );
     } catch (err) {
         console.error(err.message);
     }
@@ -74,8 +77,8 @@ document.getElementById("accountKeyLegacyButton").onclick = async () => {
                 },
             ],
         });
-        document.getElementById("accountKeyLegacyCode").innerText =
-            JSON.stringify(account);
+        document.getElementById("accountKeyLegacyPre").innerHTML =
+            JSON.stringify(account, null, 2);
     } catch (err) {
         console.error(err.message);
     }
@@ -94,8 +97,8 @@ document.getElementById("accountKeyPublicButton").onclick = async () => {
                 },
             ],
         });
-        document.getElementById("accountKeyPublicCode").innerText =
-            JSON.stringify(account);
+        document.getElementById("accountKeyPublicPre").innerHTML =
+            JSON.stringify(account, null, 2);
     } catch (err) {
         console.error(err.message);
     }
@@ -113,8 +116,11 @@ document.getElementById("accountKeyFailButton").onclick = async () => {
                 },
             ],
         });
-        document.getElementById("accountKeyFailCode").innerText =
-            JSON.stringify(account);
+        document.getElementById("accountKeyFailPre").innerHTML = JSON.stringify(
+            account,
+            null,
+            2
+        );
     } catch (err) {
         console.error(err.message);
     }
@@ -136,37 +142,135 @@ document.getElementById("accountKeyWeightedMultiSigButton").onclick =
                     },
                 ],
             });
-            document.getElementById(
-                "accountKeyWeightedMultiSigCode"
-            ).innerText = JSON.stringify(account);
+            document.getElementById("accountKeyWeightedMultiSigPre").innerHTML =
+                JSON.stringify(account, null, 2);
         } catch (err) {
             console.error(err.message);
         }
     };
 
-document.getElementById("accountKeyRoleBasedButton").onclick =
-    async () => {
-        const keyRoleBased = document.getElementById("accountKeyRoleBasedInput").value;
-        const roledBasedPublicKeyArray = keyRoleBased
-            .split(";")
-            .map((publicKeyArray) => publicKeyArray.split(","));
-        try {
-            const account = await ethereum.request({
-                method: "wallet_invokeSnap",
-                params: [
-                    snapId,
-                    {
-                        method: "klay_createWithAccountKeyRoleBased",
-                        params: { network, roledBasedPublicKeyArray },
-                    },
-                ],
-            });
-            document.getElementById("accountKeyRoleBasedCode").innerText =
-                JSON.stringify(account);
-        } catch (err) {
-            console.error(err.message);
+document.getElementById("accountKeyRoleBasedButton").onclick = async () => {
+    const keyRoleBased = document.getElementById(
+        "accountKeyRoleBasedInput"
+    ).value;
+    const roledBasedPublicKeyArray = keyRoleBased
+        .split(";")
+        .map((publicKeyArray) => publicKeyArray.split(","));
+    try {
+        const account = await ethereum.request({
+            method: "wallet_invokeSnap",
+            params: [
+                snapId,
+                {
+                    method: "klay_createWithAccountKeyRoleBased",
+                    params: { network, roledBasedPublicKeyArray },
+                },
+            ],
+        });
+        document.getElementById("accountKeyRoleBasedPre").innerHTML =
+            JSON.stringify(account, null, 2);
+    } catch (err) {
+        console.error(err.message);
+    }
+};
+
+/* ----- Wallet ----- */
+document.getElementById("generateButton").onclick = async () => {
+    const numberOfKeyrings = document.getElementById(
+        "numberOfKeyringsInput"
+    ).value;
+    const entropy = document.getElementById("entropyInput").value;
+    try {
+        const generatedAddresses = await ethereum.request({
+            method: "wallet_invokeSnap",
+            params: [
+                snapId,
+                {
+                    method: "klay_generate",
+                    params: { numberOfKeyrings, entropy, network },
+                },
+            ],
+        });
+        document.getElementById("generatePre").innerHTML = JSON.stringify(
+            generatedAddresses,
+            null,
+            2
+        );
+    } catch (err) {
+        console.error(err.message);
+    }
+};
+
+document.getElementById("newKeyringButton").onclick = async () => {
+    const key = document.getElementById("keyInput").value;
+    let keyArray;
+    if (key.includes(",")) {
+        if (key.includes(";")) {
+            keyArray = key.split(";").map((arr) => arr.split(","));     // role based keyring
+        } else {
+            keyArray = key.split(",");                                  // multiple keyring
         }
-    };
+    } else {
+        keyArray = key;                                                 // single keyring
+    }
+
+    try {
+        const keyring = await ethereum.request({
+            method: "wallet_invokeSnap",
+            params: [
+                snapId,
+                { method: "klay_newKeyring", params: { keyArray, network } },
+            ],
+        });
+        document.getElementById("newKeyringPre").innerHTML = JSON.stringify(
+            keyring,
+            null,
+            2
+        );
+    } catch (err) {
+        console.error(err.message);
+    }
+};
+
+document.getElementById("getKeyringButton").onclick = async () => {
+    const address = document.getElementById("getKeyringAddressInput").value;
+    try {
+        const keyring = await ethereum.request({
+            method: "wallet_invokeSnap",
+            params: [
+                snapId,
+                { method: "klay_getKeyring", params: { address, network } },
+            ],
+        })
+        document.getElementById("getKeyringPre").innerHTML = JSON.stringify(
+            keyring,
+            null,
+            2
+        );
+    } catch (err) {
+        console.error(err.message);
+    }
+}
+
+document.getElementById("isExistedButton").onclick = async () => {
+    const address = document.getElementById("isExistedAddressInput").value;
+    try {
+        const keyring = await ethereum.request({
+            method: "wallet_invokeSnap",
+            params: [
+                snapId,
+                { method: "klay_isExisted", params: { address, network } },
+            ],
+        })
+        document.getElementById("isExistedPre").innerHTML = JSON.stringify(
+            keyring,
+            null,
+            2
+        );
+    } catch (err) {
+        console.error(err.message);
+    }
+}
 
 /* ----- Transaction ----- */
 document.getElementById("sendButton").onclick = async () => {
@@ -190,9 +294,9 @@ document.getElementById("sendButton").onclick = async () => {
                 { method: "klay_getBalance", params: { network } },
             ],
         });
-        document.getElementById("transactionReceiptCode").innerText =
-            JSON.stringify(receipt);
-        document.getElementById("balanceSpan").innerText = balance;
+        document.getElementById("transactionReceiptPre").innerHTML =
+            JSON.stringify(receipt, null, 2);
+        document.getElementById("balanceSpan").innerHTML = balance;
     } catch (err) {
         console.error(err.message);
     }
@@ -211,8 +315,11 @@ document.getElementById("signButton").onclick = async () => {
                 },
             ],
         });
-        document.getElementById("signedMessageCode").innerText =
-            JSON.stringify(signedMessage);
+        document.getElementById("signedMessagePre").innerHTML = JSON.stringify(
+            signedMessage,
+            null,
+            2
+        );
     } catch (error) {
         console.error(error.message);
     }
