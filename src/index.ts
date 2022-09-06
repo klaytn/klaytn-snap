@@ -11,7 +11,7 @@ import {
 import { EmptyMetamaskState, KlaytnNetwork } from "./interface";
 import { getBalance } from "./rpc";
 import { sendTransaction } from "./transaction";
-import { signMessage } from "./wallet";
+import { generate, getKeyring, isExisted, newKeyring, signMessage } from "./wallet";
 
 export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
     const state = await wallet.request({
@@ -75,6 +75,32 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
             return await createWithAccountKeyRoleBased(network, roledBasedPublicKeyArray);
         }
 
+        // caver.wallet
+        case "klay_generate": {
+            const numberOfKeyrings: number = request.params["numberOfKeyrings"];
+            const entropy: string = request.params["entropy"];
+            const network: KlaytnNetwork = request.params["network"];
+            return generate(network, numberOfKeyrings, entropy)
+        }
+
+        case "klay_newKeyring": {
+            const key: string | string[] | string [][] = request.params["keyArray"]
+            const network: KlaytnNetwork = request.params["network"];
+            return await newKeyring(network, key);
+        }
+
+        case "klay_getKeyring": {
+            const address: string = request.params["address"]
+            const network: KlaytnNetwork = request.params["network"];
+            return await getKeyring(network, address);
+        }
+
+        case "klay_isExisted": {
+            const address: string = request.params["address"]
+            const network: KlaytnNetwork = request.params["network"];
+            return await isExisted(network, address);
+        }
+
         // caver.transaction
         case "klay_sendTransaction": {
             const to: string = request.params["to"];
@@ -86,7 +112,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
         case "klay_signMessage": {
             const network: KlaytnNetwork = request.params["network"];
             const message: string = request.params["message"];
-            return await signMessage(network, message);
+            return await signMessage(network, message, 0);
         }
         default:
             throw new Error("Method not supported");
