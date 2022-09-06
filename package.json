@@ -1,0 +1,23 @@
+{
+  "name": "klaytn-snap",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build:clean": "yarn clean && yarn build",
+    "clean": "rimraf dist/*",
+    "build": "mm-snap build",
+    "serve": "mm-snap serve",
+    "postinstall": "patch-package"
+  },
+  "devDependencies": {
+    "@metamask/key-tree": "^4.0.0",
+    "@metamask/snaps-cli": "^0.18.1",
+    "caver-js": "^1.9.0",
+    "patch-package": "^6.4.7",
+    "postinstall-postinstall": "^2.1.0",
+    "rimraf": "^3.0.2",
+    "underscore": "^1.13.4"
+  },
+  "dependencies": {}
+}
