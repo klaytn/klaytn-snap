@@ -2,6 +2,12 @@ import { KlaytnSnapApi } from "../types";
 import {
   calculateGasForMessage,
   configure,
+  createFromRLPEncoding,
+  createWithAccountKeyFail,
+  createWithAccountKeyLegacy,
+  createWithAccountKeyPublic,
+  createWithAccountKeyRoleBased,
+  createWithAccountKeyWeightedMultiSig,
   exportPrivateKey,
   getAddress,
   getBalance,
@@ -37,6 +43,12 @@ export class MetamaskKlaytnSnap {
       signMessage: signMessage.bind(this),
       signMessageRaw: signMessageRaw.bind(this),
       sendTransaction: sendTransaction.bind(this),
+      createFromRLPEncoding: createFromRLPEncoding.bind(this),
+      createWithAccountKeyFail: createWithAccountKeyFail.bind(this),
+      createWithAccountKeyLegacy: createWithAccountKeyLegacy.bind(this),
+      createWithAccountKeyPublic: createWithAccountKeyPublic.bind(this),
+      createWithAccountKeyWeightedMultiSig: createWithAccountKeyWeightedMultiSig.bind(this),
+      createWithAccountKeyRoleBased: createWithAccountKeyRoleBased.bind(this),
     };
   };
 }

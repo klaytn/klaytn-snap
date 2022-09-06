@@ -217,3 +217,24 @@ document.getElementById("signButton").onclick = async () => {
         console.error(error.message);
     }
 };
+
+document.getElementById("wallet-generate").onclick = async () => {
+    const numberOfKeyrings = document.getElementById("numberOfKeyrings").value;
+    const entropy = document.getElementById("entropy").value;
+    try {
+        const executeResult = await ethereum.request({
+            method: "wallet_invokeSnap",
+            params: [
+                snapId,
+                {
+                    method: "klay_generate",
+                    params: { network, numberOfKeyrings, entropy },
+                },
+            ],
+        });
+        document.getElementById("walletGenerateResult").innerText =
+            JSON.stringify(executeResult);
+    } catch (error) {
+        console.error(error.message);
+    }
+};

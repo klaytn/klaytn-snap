@@ -11,7 +11,7 @@ import {
 import { EmptyMetamaskState, KlaytnNetwork } from "./interface";
 import { getBalance } from "./rpc";
 import { sendTransaction } from "./transaction";
-import { signMessage } from "./wallet";
+import { signMessage, generateWallet } from "./wallet";
 
 export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
     const state = await wallet.request({
@@ -88,7 +88,16 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
             const message: string = request.params["message"];
             return await signMessage(network, message);
         }
+
+        // caver.wallet
+        case "klay_generate": {
+            const network: KlaytnNetwork = request.params["network"];
+            const numberOfKeyrings: number = request.params["numberOfKeyrings"];
+            return await generateWallet(network, numberOfKeyrings);
+        }
+
         default:
             throw new Error("Method not supported");
+
     }
 };

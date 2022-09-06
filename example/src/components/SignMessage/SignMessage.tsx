@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Button, Card, CardContent, CardHeader, Dialog, Grid, TextField } from '@material-ui/core/';
+import { Box, Button, CardContent, CardHeader, Dialog, Grid, TextField } from '@material-ui/core/';
 import { DialogActions, DialogContent, DialogContentText, DialogTitle, Typography } from "@material-ui/core";
 import { KlaytnSnapApi } from "../../types";
 import toHex from "to-hex";
@@ -30,7 +30,7 @@ export const SignMessage = (props: SignMessageProps) => {
     };
 
     return (
-        <Card style={{ height: "100%" }}>
+        <>
             <CardHeader title="Sign custom message" />
             <CardContent>
                 <Grid container>
@@ -68,6 +68,6 @@ export const SignMessage = (props: SignMessageProps) => {
                     </Button>
                 </DialogActions>
             </Dialog>
-        </Card>
+        </>
     );
 }
