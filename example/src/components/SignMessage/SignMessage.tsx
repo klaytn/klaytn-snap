@@ -50,7 +50,7 @@ export const SignMessage = (props: SignMessageProps) => {
                 {result &&
                     <ExpandResult defaultExpand={true}>
                         <Typography>
-                           Message: {result}
+                            Signature: {result}
                         </Typography>
                     </ExpandResult>
                 }
