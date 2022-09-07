@@ -35,6 +35,7 @@ export const TransactionTable = ({ txs }: TransactionTableProps) => {
                                 <a
                                     href={`https://baobab.scope.klaytn.com/tx/${tx.transactionHash}`}
                                     target="_blank"
+                                    rel="noreferrer"
                                     title="View on Baobab Scope"
                                 >
                                     {tx.transactionHash}

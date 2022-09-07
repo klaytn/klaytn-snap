@@ -11,7 +11,6 @@ import {
 } from '@material-ui/core/';
 import { KlaytnSnapApi, TransferStatus } from "../../types";
 import ExpandResult from "../ExpandResult/ExpandResult";
-import { TransactionTable } from "../TransactionTable/TransactionTable";
 import { ChevronRight } from "@material-ui/icons";
 
 interface ITransferProps {
@@ -21,8 +20,6 @@ interface ITransferProps {
     goToDetail?: (event: React.ChangeEvent<{}>) => void,
     address: string
 }
-
-type AlertSeverity = "success" | "warning" | "info" | "error";
 
 export const Transfer: React.FC<ITransferProps> = ({ network, api, onTransactionSuccess, goToDetail, address }) => {
     const [recipient, setRecipient] = useState<string>("");
@@ -97,7 +94,7 @@ export const Transfer: React.FC<ITransferProps> = ({ network, api, onTransaction
                 setResult(e);
             }
         }
-    }, [amount, recipient, api,
+    }, [amount, recipient, api, address, network,
         //  gasLimit, gasFeeCap, gasPremium, 
         onTransactionSuccess]);
     return (
@@ -148,9 +145,14 @@ export const Transfer: React.FC<ITransferProps> = ({ network, api, onTransaction
                                 Tranfer successfuly! <br />
                                 <Typography color="secondary">
                                     Transaction hash: {" "}
-                                    <a href={`https://baobab.scope.klaytn.com/tx/${result.transactionHash}`} target="_blank" title="View on Baobab">{result.transactionHash}</a>
+                                    <a
+                                        href={`https://baobab.scope.klaytn.com/tx/${result.transactionHash}`}
+                                        target="_blank"
+                                        title="View on Baobab"
+                                        rel="noreferrer"
+                                    >{result.transactionHash}</a>
                                 </Typography>
-                                <a onClick={goToDetail} style={{ cursor: 'pointer' }}>
+                                <a href="#history" onClick={goToDetail} style={{ cursor: 'pointer' }}>
                                     <Grid container item xs={12} justifyContent="flex-start" >
                                         <Typography color="secondary">History</Typography>
                                         <ChevronRight style={{ lineHeight: '1rem' }} color="secondary" />
