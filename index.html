@@ -53,7 +53,7 @@
                 <button id="rlpEncodedButton">Create</button>
               </div>
             </div>
-            <code id="rlpEncodedCode"> </code>
+            <pre id="rlpEncodedPre"> </pre>
           </li>
           <li>
             <div style="display: grid; grid-template-columns: 13rem auto;">
@@ -62,7 +62,7 @@
                 <button id="accountKeyLegacyButton">Create</button>
               </div>
             </div>
-            <code id="accountKeyLegacyCode"> </code>
+            <pre id="accountKeyLegacyPre"> </pre>
           </li>
           <li>
             <div style="display: grid; grid-template-columns: 13rem auto;">
@@ -72,7 +72,7 @@
                 <button id="accountKeyPublicButton">Create</button>
               </div>
             </div>
-            <code id="accountKeyPublicCode"> </code>
+            <pre id="accountKeyPublicPre"> </pre>
           </li>
           <li>
             <div style="display: grid; grid-template-columns: 13rem auto;">
@@ -81,7 +81,7 @@
                 <button id="accountKeyFailButton">Create</button>
               </div>
             </div>
-            <code id="accountKeyFailCode"> </code>
+            <pre id="accountKeyFailPre"> </pre>
           </li>
           <li>
             <div style="display: grid; grid-template-columns: 13rem auto;">
@@ -91,7 +91,7 @@
                 <button id="accountKeyWeightedMultiSigButton">Create</button>
               </div>
             </div>
-            <code id="accountKeyWeightedMultiSigCode"> </code>
+            <pre id="accountKeyWeightedMultiSigPre"> </pre>
           </li>
           <li>
             <div style="display: grid; grid-template-columns: 13rem auto;">
@@ -101,7 +101,58 @@
                 <button id="accountKeyRoleBasedButton">Create</button>
               </div>
             </div>
-            <code id="accountKeyRoleBasedCode"></code>
+            <pre id="accountKeyRoleBasedPre"></pre>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- wallet -->
+    <hr/>
+    <div>
+      <div>
+        caver.wallet<br/>
+        <ul>
+          <li>
+            <div style="display: grid; grid-template-columns: 13rem auto;">
+              generate:
+              <div>
+                <input type="text" placeholder="Number of Keyring" id="numberOfKeyringsInput"/>
+                <input type="text" placeholder="A random string (optional)" id="entropyInput"/>
+                <button id="generateButton">Generate</button>
+              </div>
+            </div>
+            <pre id="generatePre"> </pre>
+          </li>
+          <li>
+            <div style="display: grid; grid-template-columns: 13rem auto;">
+              newKeyring:
+              <div>
+                <input type="text" placeholder="Key" id="keyInput"/>
+                <button id="newKeyringButton">Generate</button>
+              </div>
+            </div>
+            <pre id="newKeyringPre"> </pre>
+          </li>
+          <li>
+            <div style="display: grid; grid-template-columns: 13rem auto;">
+              getKeyring:
+              <div>
+                <input type="text" placeholder="Address" id="getKeyringAddressInput"/>
+                <button id="getKeyringButton">Get Keyring</button>
+              </div>
+            </div>
+            <pre id="getKeyringPre"> </pre>
+          </li>
+          <li>
+            <div style="display: grid; grid-template-columns: 13rem auto;">
+              isExisted:
+              <div>
+                <input type="text" placeholder="Address" id="isExistedAddressInput"/>
+                <button id="isExistedButton">Get Keyring</button>
+              </div>
+            </div>
+            <pre id="isExistedPre"> </pre>
           </li>
         </ul>
       </div>
@@ -142,7 +193,7 @@
                 <button id="sendButton">Send</button>
               </div>
             </div>
-            <code id="transactionReceiptCode"> </code>
+            <pre id="transactionReceiptPre"> </pre>
           </li>
           <li>
             <div style="display: grid; grid-template-columns: 13rem auto;">
@@ -152,7 +203,7 @@
                 <button id="signButton">Sign</button>
               </div>
             </div>
-            <code id="signedMessageCode"></code>
+            <pre id="signedMessagePre"></pre>
           </li>
         </ul>
       </div>
