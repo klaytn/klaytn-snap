@@ -163,3 +163,11 @@ export async function signAsFeePayer(
         hashser
     );
 }
+
+export async function generateWallet(
+    network: KlaytnNetwork,
+    numberOfKeyrings: number,
+) {
+    const caver: Caver = getCaver(network);
+    return caver.wallet.generate(numberOfKeyrings);
+}

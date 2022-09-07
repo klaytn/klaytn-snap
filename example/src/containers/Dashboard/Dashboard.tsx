@@ -1,8 +1,10 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import {
     Box,
-    //  Card, CardContent, CardHeader,
-    Container, Grid, Hidden,
+    Card,
+    CardContent, 
+    Container, Grid, Tab,
+    Tabs,
     // InputLabel, MenuItem, Select, 
     Typography,
 } from '@material-ui/core/';
@@ -17,7 +19,35 @@ import {
 import { SignMessage } from "../../components/SignMessage/SignMessage";
 import { Transfer } from "../../components/Transfer/Transfer";
 import Footer from "../../Footer";
+import { AccountDetails } from "../../components/Account/AccountDetails";
+interface TabPanelProps {
+    children?: React.ReactNode;
+    index: number;
+    value: number;
+}
 
+function TabPanel(props: TabPanelProps) {
+    const { children, value, index, ...other } = props;
+
+    return (
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`simple-tabpanel-${index}`}
+            aria-labelledby={`simple-tab-${index}`}
+            {...other}
+        >
+            {value === index && children}
+        </div>
+    );
+}
+
+function applyProps(index: number) {
+    return {
+        id: `simple-tab-${index}`,
+        'aria-controls': `simple-tabpanel-${index}`,
+    };
+}
 export const Dashboard = () => {
 
     const [state] = useContext(MetaMaskContext);
@@ -94,6 +124,12 @@ export const Dashboard = () => {
         return () => clearInterval(interval);
     }, [api, balance, setBalance, setBalanceChange, address]);
 
+    const [value, setValue] = React.useState(0);
+
+    const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+        setValue(newValue);
+    };
+
     return (
         <Container maxWidth="lg">
             <Grid direction="column" alignItems="center" justifyContent="center" container spacing={3}>
@@ -122,7 +158,7 @@ export const Dashboard = () => {
                     </Box> */}
                     <Grid container spacing={3} alignItems="stretch">
                         <Grid item xs={12}>
-                            <Account
+                            <AccountDetails
                                 address={address}
                                 balance={balance + " KLAY"}
                                 // publicKey={publicKey}
@@ -132,12 +168,33 @@ export const Dashboard = () => {
                         </Grid>
                     </Grid>
                     <Box m="1rem" />
+                    <Card>
+                        <CardContent>
+                            <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                                <Tab label="Account Method" {...applyProps(0)} />
+                                <Tab label="Transfer" {...applyProps(1)} />
+                                <Tab label="Sign custom message" {...applyProps(2)} />
+                            </Tabs>
+                            <TabPanel value={value} index={0}>
+                                <Account network={network} api={api} />
+                            </TabPanel>
+                            <TabPanel value={value} index={1}>
+                                <Transfer api={api} network={network} onNewMessageCallback={handleNewMessage} address={address} />
+                            </TabPanel>
+                            <TabPanel value={value} index={2}>
+                                <SignMessage api={api} />
+                            </TabPanel>
+                        </CardContent>
+                    </Card>
+                    <Grid container spacing={3} alignItems="stretch">
+                        <Grid item xs={12}>
+                        </Grid>
+                    </Grid>
+                    <Box m="1rem" />
                     <Grid container spacing={3} alignItems="stretch">
                         <Grid item md={6} xs={12}>
-                            <Transfer api={api} network={network} onNewMessageCallback={handleNewMessage} address={address} />
                         </Grid>
                         <Grid item md={6} xs={12}>
-                            <SignMessage api={api} />
                         </Grid>
                     </Grid>
                     {/*<Box m="1rem" />
