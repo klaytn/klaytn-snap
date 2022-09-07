@@ -13,3 +13,6 @@ Run `yarn build:clean` to remove old dist folder and re-build snap
 Run `yarn serve` to start demo
 
 Access `http://localhost:9000` to start testing Klaytn snap. You can change port number in `snap.config.js` as well
+
+## Publish
+Add `"postinstall": "patch-package"` to scripts in package.json
