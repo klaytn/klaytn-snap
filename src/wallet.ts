@@ -44,7 +44,7 @@ export async function getKeyring(
     return caver.wallet.getKeyring(address);
 }
 
-export async function isExisted(network: KlaytnNetwork, address: string): Promise<boolean> {
+export function isExisted(network: KlaytnNetwork, address: string): boolean {
     const caver: Caver = getCaver(network);
     return caver.wallet.isExisted(address);
 }
@@ -54,7 +54,7 @@ export function add(network: KlaytnNetwork, keyring: Keyring): Keyring {
     return caver.wallet.add(keyring);
 }
 
-export async function remove(network: KlaytnNetwork, address: string): Promise<boolean> {
+export function remove(network: KlaytnNetwork, address: string): boolean {
     const caver: Caver = getCaver(network);
     return caver.wallet.remove(address);
 }
