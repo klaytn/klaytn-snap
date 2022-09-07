@@ -20,7 +20,7 @@ export const AccountDetails = (props: AccountDetailsProps) => {
 
     return (
         <Card>
-            <CardHeader title="Instructions" />
+            <CardHeader title="Account details" />
             <CardContent>
                 <Grid container alignItems="center">
                     <Grid item md={6} xs={12}>

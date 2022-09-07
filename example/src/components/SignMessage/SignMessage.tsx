@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Box, Button, CardContent, CardHeader, Dialog, Grid, TextField } from '@material-ui/core/';
-import { DialogActions, DialogContent, DialogContentText, DialogTitle, Typography } from "@material-ui/core";
+import { Box, Button, CardContent, CardHeader, Grid, TextField, Typography } from '@material-ui/core/';
 import { KlaytnSnapApi } from "../../types";
 import toHex from "to-hex";
+import ExpandResult from "../ExpandResult/ExpandResult";
 
 export interface SignMessageProps {
     api: KlaytnSnapApi | null
@@ -10,8 +10,7 @@ export interface SignMessageProps {
 
 export const SignMessage = (props: SignMessageProps) => {
     const [textFieldValue, setTextFieldValue] = useState<string>("");
-    const [modalBody, setModalBody] = useState<string>("");
-    const [modalOpen, setModalOpen] = useState<boolean>(false);
+    const [result, setResult] = useState<string>("");
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setTextFieldValue(event.target.value);
@@ -22,8 +21,7 @@ export const SignMessage = (props: SignMessageProps) => {
             const rawMessage = textFieldValue || toHex(textFieldValue, { addPrefix: true });
             const sigResponse = await props.api.signMessage(rawMessage);
             if (sigResponse.messageHash && !sigResponse.error) {
-                setModalBody(sigResponse.messageHash);
-                setModalOpen(true);
+                setResult(sigResponse.messageHash);
             }
             setTextFieldValue("");
         }
@@ -48,26 +46,15 @@ export const SignMessage = (props: SignMessageProps) => {
                 <Grid container justifyContent="flex-end">
                     <Button onClick={onSubmit} color="secondary" variant="contained" size="large">Sign</Button>
                 </Grid>
+                <Box m="1rem" />
+                {result &&
+                    <ExpandResult defaultExpand={true}>
+                        <Typography>
+                           Message: {result}
+                        </Typography>
+                    </ExpandResult>
+                }
             </CardContent>
-            <Dialog
-                open={modalOpen}
-                onClose={() => setModalOpen(false)}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
-                <DialogTitle id="alert-dialog-title">{"Message signature"}</DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        This is signature of your message:<br />
-                        <Typography style={{ wordWrap: "break-word" }}>{modalBody}</Typography>
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => setModalOpen(false)} color="primary" autoFocus>
-                        OK
-                    </Button>
-                </DialogActions>
-            </Dialog>
         </>
     );
 }

@@ -6,32 +6,32 @@ import {
     CardHeader,
     Grid,
     InputAdornment,
-    Snackbar,
-    TextField
+    TextField,
+    Typography
 } from '@material-ui/core/';
-import { Alert } from "@material-ui/lab";
-import { KlaytnSnapApi } from "../../types";
+import { KlaytnSnapApi, TransferStatus } from "../../types";
+import ExpandResult from "../ExpandResult/ExpandResult";
+import { TransactionTable } from "../TransactionTable/TransactionTable";
+import { ChevronRight } from "@material-ui/icons";
 
 interface ITransferProps {
     network: string,
     api: KlaytnSnapApi | null,
-    onNewMessageCallback: any,
+    onTransactionSuccess?: (tx: TransferStatus) => void,
+    goToDetail?: (event: React.ChangeEvent<{}>) => void,
     address: string
 }
 
 type AlertSeverity = "success" | "warning" | "info" | "error";
 
-export const Transfer: React.FC<ITransferProps> = ({ network, api, onNewMessageCallback, address }) => {
+export const Transfer: React.FC<ITransferProps> = ({ network, api, onTransactionSuccess, goToDetail, address }) => {
     const [recipient, setRecipient] = useState<string>("");
     const [amount, setAmount] = useState<string>("");
     // const [gasLimit, setGasLimit] = useState<string>("0");
     // const [gasPremium, setGasPremium] = useState<string>("0");
     // const [gasFeeCap, setGasFeeCap] = useState<string>("0");
-    // const [maxFee, setMaxFee] = useState<string>("0");
-
-    const [alert, setAlert] = useState(false);
-    const [severity, setSeverity] = useState("success" as AlertSeverity);
-    const [message, setMessage] = useState("");
+    // const [maxFee, setMaxFee] = useState<string>("0"); 
+    const [result, setResult] = useState<TransferStatus | any | null>(null);
 
     const handleRecipientChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         setRecipient(event.target.value);
@@ -57,11 +57,6 @@ export const Transfer: React.FC<ITransferProps> = ({ network, api, onNewMessageC
     //     setGasFeeCap(event.target.value);
     // }, [setGasFeeCap]);
 
-    const showAlert = (severity: AlertSeverity, message: string) => {
-        setSeverity(severity);
-        setMessage(message);
-        setAlert(true);
-    };
 
     // const onAutoFillGas = useCallback(async () => {
     //     if (recipient && amount && api) {
@@ -84,25 +79,27 @@ export const Transfer: React.FC<ITransferProps> = ({ network, api, onNewMessageC
 
     const onSubmit = useCallback(async () => {
         if (amount && recipient && api) {
-            const txResult = await api.sendTransaction({ to: recipient, value: amount, from: address, network });
-            console.log(txResult)
-            if (txResult?.transactionHash) showAlert('success', `Trasaction success with hash: ${txResult?.transactionHash}`)
-            else showAlert('error', `Trasaction failed with hash: ${txResult}`)
-
-            // clear form
-            setAmount("");
-            setRecipient("");
-            // setGasFeeCap("0");
-            // setGasPremium("0");
-            // setGasLimit("0");
-            // setMaxFee("0");
-            // inform to refresh messages display
-            onNewMessageCallback();
+            try {
+                const txResult = await api.sendTransaction({ to: recipient, value: amount, from: address, network });
+                console.log(txResult)
+                setResult(txResult);
+                // clear form
+                setAmount("");
+                setRecipient("");
+                // setGasFeeCap("0");
+                // setGasPremium("0");
+                // setGasLimit("0");
+                // setMaxFee("0");
+                // inform to refresh messages display
+                onTransactionSuccess?.(txResult);
+            }
+            catch (e) {
+                setResult(e);
+            }
         }
     }, [amount, recipient, api,
         //  gasLimit, gasFeeCap, gasPremium, 
-        onNewMessageCallback]);
-
+        onTransactionSuccess]);
     return (
         <>
             <CardHeader title="Transfer" />
@@ -112,7 +109,7 @@ export const Transfer: React.FC<ITransferProps> = ({ network, api, onNewMessageC
                         <TextField
                             onChange={handleRecipientChange} size="medium" fullWidth id="recipient" label="Recipient" variant="outlined" value={recipient}>
                         </TextField>
-                        <Box m="0.5rem" />
+                        <Box m="1rem" />
                         <TextField
                             InputProps={{ startAdornment: <InputAdornment position="start">KLAY</InputAdornment> }}
                             onChange={handleAmountChange} size="medium" fullWidth id="amount" label="Amount" variant="outlined" value={amount}>
@@ -144,18 +141,28 @@ export const Transfer: React.FC<ITransferProps> = ({ network, api, onNewMessageC
                     {/* <Button onClick={onAutoFillGas} color="secondary" variant="contained" size="large" style={{ marginRight: 10 }}>AUTO FILL GAS</Button> */}
                     <Button onClick={onSubmit} color="secondary" variant="contained" size="large">SEND</Button>
                 </Grid>
-                <Snackbar
-                    open={alert}
-                    autoHideDuration={6000}
-                    onClose={() => setAlert(false)}
-                    anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'left',
-                    }}>
-                    <Alert severity={severity} onClose={() => setAlert(false)}>
-                        {`${message} `}
-                    </Alert>
-                </Snackbar>
+                {result &&
+                    <ExpandResult defaultExpand={true}>
+                        {result.transactionHash ?
+                            <Typography color="primary">
+                                Tranfer successfuly! <br />
+                                <Typography color="secondary">
+                                    Transaction hash: {" "}
+                                    <a href={`https://baobab.scope.klaytn.com/tx/${result.transactionHash}`} target="_blank" title="View on Baobab">{result.transactionHash}</a>
+                                </Typography>
+                                <a onClick={goToDetail} style={{ cursor: 'pointer' }}>
+                                    <Grid container item xs={12} justifyContent="flex-start" >
+                                        <Typography color="secondary">History</Typography>
+                                        <ChevronRight style={{ lineHeight: '1rem' }} color="secondary" />
+                                    </Grid>
+                                </a>
+                            </Typography>
+                            : <Typography color="error">
+                                Tranfer failed! <br />
+                                {result.message}
+                            </Typography>}
+                    </ExpandResult>
+                }
             </CardContent>
         </>
     );

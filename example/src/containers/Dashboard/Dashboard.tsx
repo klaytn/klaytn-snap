@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useEffect, useState } from "react";
 import {
     Box,
     Card,
-    CardContent, 
+    CardContent,
     Container, Grid, Tab,
     Tabs,
     // InputLabel, MenuItem, Select, 
@@ -12,10 +12,10 @@ import { MetaMaskConnector } from "../MetaMaskConnector/MetaMaskConnector";
 import { MetaMaskContext } from "../../context/metamask";
 import { Account } from "../../components/Account/Account";
 import {
-    KlaytnSnapApi,
+    KlaytnSnapApi, TransferStatus,
     // MessageStatus 
 } from "../../types";
-// import { TransactionTable } from "../../components/TransactionTable/TransactionTable";
+import { TransactionTable } from "../../components/TransactionTable/TransactionTable";
 import { SignMessage } from "../../components/SignMessage/SignMessage";
 import { Transfer } from "../../components/Transfer/Transfer";
 import Footer from "../../Footer";
@@ -54,8 +54,8 @@ export const Dashboard = () => {
     const [balance, setBalance] = useState("");
     const [address, setAddress] = useState("");
     // const [publicKey, setPublicKey] = useState("");
-    // const [messages, setMessages] = useState<MessageStatus[]>([]);
-    const [networks, setNetworks] = useState<"baobab" | "cypress">("baobab")
+    const [transactions, setTransactions] = useState<TransferStatus[]>([]);
+    // const [networks, setNetworks] = useState<"baobab" | "cypress">("baobab")
 
     const [balanceChange, setBalanceChange] = useState<boolean>(false);
 
@@ -63,29 +63,24 @@ export const Dashboard = () => {
 
     const [api, setApi] = useState<KlaytnSnapApi | null>(null);
 
-    const handleNetworkChange = async (event: React.ChangeEvent<{ value: any }>) => {
-        const selectedNetwork = event.target.value as "cypress" | "baobab";
-        if (selectedNetwork === network) return;
-        if (api) {
-            try {
-                await api.configure({ network: selectedNetwork });
-                setNetworks(selectedNetwork)
-                setNetwork(selectedNetwork);
-                // setMessages(await api.getMessages());
-            } catch (e) {
-                console.error("Unable to change network", e)
-            }
-        }
-    };
+    // const handleNetworkChange = async (event: React.ChangeEvent<{ value: any }>) => {
+    //     const selectedNetwork = event.target.value as "cypress" | "baobab";
+    //     if (selectedNetwork === network) return;
+    //     if (api) {
+    //         try {
+    //             await api.configure({ network: selectedNetwork });
+    //             // setNetworks(selectedNetwork)
+    //             setNetwork(selectedNetwork);
+    //             // setMessages(await api.getMessages());
+    //         } catch (e) {
+    //             console.error("Unable to change network", e)
+    //         }
+    //     }
+    // };
 
-    const handleNewMessage = useCallback(async () => {
-        if (api) {
-            // setMessages(await api.getMessages());
-        }
-    }, [
-        api,
-        // setMessages
-    ]);
+    const handleNewTransaction = (newTransaction: TransferStatus) => {
+        setTransactions(transactions => ([newTransaction, ...transactions]))
+    };
 
     useEffect(() => {
         (async () => {
@@ -174,15 +169,25 @@ export const Dashboard = () => {
                                 <Tab label="Account Method" {...applyProps(0)} />
                                 <Tab label="Transfer" {...applyProps(1)} />
                                 <Tab label="Sign custom message" {...applyProps(2)} />
+                                <Tab label="History" {...applyProps(3)} />
                             </Tabs>
                             <TabPanel value={value} index={0}>
                                 <Account network={network} api={api} />
                             </TabPanel>
                             <TabPanel value={value} index={1}>
-                                <Transfer api={api} network={network} onNewMessageCallback={handleNewMessage} address={address} />
+                                <Transfer
+                                    api={api}
+                                    network={network}
+                                    onTransactionSuccess={handleNewTransaction}
+                                    goToDetail={e => handleChange(e, 3)}
+                                    address={address}
+                                />
                             </TabPanel>
                             <TabPanel value={value} index={2}>
                                 <SignMessage api={api} />
+                            </TabPanel>
+                            <TabPanel value={value} index={3}>
+                                <TransactionTable txs={transactions} />
                             </TabPanel>
                         </CardContent>
                     </Card>
