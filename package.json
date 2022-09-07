@@ -2,21 +2,23 @@
     "name": "klaytn_snap",
     "private": true,
     "scripts": {
-        "patch:snap": "yarn workspace @klaytn_snap/snap install",
         "compile": "tsc -b -w -i",
         "eslint": "eslint src/**/**.{ts,tsx}",
         "eslint:fix": "eslint src/**/**.{ts,tsx} --fix",
         "build:snap": "yarn workspace @klaytn_snap/snap build",
         "start:snap": "yarn workspace @klaytn_snap/snap serve",
         "start:example": "yarn workspace @klaytn_snap/example start",
-        "setup": "yarn && yarn run patch:snap && yarn run build:snap",
+        "setup": "yarn install && yarn run build:snap",
         "build": "yarn workspaces foreach -vpt run build",
         "demo:local": "concurrently  --raw --kill-others \"yarn run start:snap\" \"yarn run start:example\"",
-        "demo": "yarn run demo:local"
+        "demo": "yarn run demo:local",
+        "postinstall": "patch-package"
     },
     "devDependencies": {
         "@types/node": "^18.7.15",
         "concurrently": "^7.1.0",
+        "patch-package": "^6.4.7",
+        "postinstall-postinstall": "^2.1.0",
         "ts-node": "^10.9.1"
     },
     "workspaces": [
