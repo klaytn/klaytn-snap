@@ -3,7 +3,7 @@
   "description": "The Klaytn Snap.",
   "proposedName": "klaytn-snap",
   "source": {
-    "shasum": "E3F+pLG7TetzHxbD1eQVdaRkelBMtTpuc5Q3AjUmW94=",
+    "shasum": "kxB8hFX+rSKD1CKCWotm4leIkBBIMjK1RI2VOGmx9Mc=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",

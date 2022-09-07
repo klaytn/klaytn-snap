@@ -111,3 +111,70 @@ export async function sendTransaction(
     this.snapId
   );
 }
+
+export async function createFromRLPEncoding(
+  this: MetamaskKlaytnSnap,
+  params: { network: string, rlpEncodedKey: string }): Promise<any> {
+  return await sendSnapMethod(
+    {
+      method: "klay_createFromRLPEncoding",
+      params,
+    },
+    this.snapId
+  );
+}
+export async function createWithAccountKeyFail(
+  this: MetamaskKlaytnSnap,
+  params: { network: string }): Promise<any> {
+  return await sendSnapMethod(
+    {
+      method: "klay_createWithAccountKeyFail",
+      params: params,
+    },
+    this.snapId
+  );
+}
+export async function createWithAccountKeyLegacy(
+  this: MetamaskKlaytnSnap,
+  params: { network: string }): Promise<any> {
+  return await sendSnapMethod(
+    {
+      method: "klay_createWithAccountKeyLegacy",
+      params: params,
+    },
+    this.snapId
+  );
+}
+export async function createWithAccountKeyPublic(
+  this: MetamaskKlaytnSnap,
+  params: { network: string, keyPublic: string }): Promise<any> {
+  return await sendSnapMethod(
+    {
+      method: "klay_createWithAccountKeyPublic",
+      params: params,
+    },
+    this.snapId
+  );
+}
+export async function createWithAccountKeyWeightedMultiSig(
+  this: MetamaskKlaytnSnap,
+  params: { network: string, publicKeyArray: string[] }): Promise<any> {
+  return await sendSnapMethod(
+    {
+      method: "klay_createWithAccountKeyWeightedMultiSig",
+      params,
+    },
+    this.snapId
+  );
+}
+export async function createWithAccountKeyRoleBased(
+  this: MetamaskKlaytnSnap,
+  params: { network: string, roledBasedPublicKeyArray: string[] }): Promise<any> {
+  return await sendSnapMethod(
+    {
+      method: "klay_createWithAccountKeyRoleBased",
+      params: params,
+    },
+    this.snapId
+  );
+}

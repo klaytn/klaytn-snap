@@ -1,6 +1,6 @@
 import { enableKlaytnSnap, MetamaskKlaytnSnap } from "../adapter";
 
-export const defaultSnapId = 'local:http://localhost:8081';
+export const defaultSnapId = 'local:http://localhost:9000';
 
 let isInstalled: boolean = false;
 

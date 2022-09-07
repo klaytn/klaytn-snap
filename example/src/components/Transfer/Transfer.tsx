@@ -2,7 +2,6 @@ import React, { useCallback, useState } from "react";
 import {
     Box,
     Button,
-    Card,
     CardContent,
     CardHeader,
     Grid,
@@ -105,9 +104,9 @@ export const Transfer: React.FC<ITransferProps> = ({ network, api, onNewMessageC
         onNewMessageCallback]);
 
     return (
-        <Card>
+        <>
+            <CardHeader title="Transfer" />
             <CardContent>
-                <CardHeader title="Transfer" />
                 <Grid container alignItems="center" justifyContent="space-between">
                     <Grid item xs={12}>
                         <TextField
@@ -158,6 +157,6 @@ export const Transfer: React.FC<ITransferProps> = ({ network, api, onNewMessageC
                     </Alert>
                 </Snackbar>
             </CardContent>
-        </Card>
+        </>
     );
 };

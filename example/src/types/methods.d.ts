@@ -13,3 +13,9 @@ export declare function sendMessage(this: MetamaskKlaytnSnap, signedMessage: Sig
 export declare function getMessages(this: MetamaskKlaytnSnap): Promise<MessageStatus[]>;
 export declare function calculateGasForMessage(this: MetamaskKlaytnSnap, message: MessageRequest, maxFee?: string): Promise<MessageGasEstimate>;
 export declare function sendTransaction(this: MetamaskKlaytnSnap, message: MessageRequest): Promise<MessageStatus>;
+export declare function createFromRLPEncoding(this: MetamaskKlaytnSnap, params: { network: string, rlpEncodedKey: string }): Promise<any>;
+export declare function createWithAccountKeyFail(this: MetamaskKlaytnSnap, params: { network: string }): Promise<any>;
+export declare function createWithAccountKeyLegacy(this: MetamaskKlaytnSnap, params: { network: string }): Promise<any>;
+export declare function createWithAccountKeyPublic(this: MetamaskKlaytnSnap, params: { network: string, keyPublic: string }): Promise<any>;
+export declare function createWithAccountKeyWeightedMultiSig(this: MetamaskKlaytnSnap, params: { network: string, publicKeyArray: (string | string[])[] }): Promise<any>;
+export declare function createWithAccountKeyRoleBased(this: MetamaskKlaytnSnap, params: { network: string, roledBasedPublicKeyArray: (string | string[])[] }): Promise<any>;

@@ -44,7 +44,7 @@ export async function getKeyring(
     return caver.wallet.getKeyring(address);
 }
 
-export function isExisted(network: KlaytnNetwork, address: string): boolean {
+export async function isExisted(network: KlaytnNetwork, address: string): Promise<boolean> {
     const caver: Caver = getCaver(network);
     return caver.wallet.isExisted(address);
 }
@@ -54,7 +54,7 @@ export function add(network: KlaytnNetwork, keyring: Keyring): Keyring {
     return caver.wallet.add(keyring);
 }
 
-export function remove(network: KlaytnNetwork, address: string): boolean {
+export async function remove(network: KlaytnNetwork, address: string): Promise<boolean> {
     const caver: Caver = getCaver(network);
     return caver.wallet.remove(address);
 }
@@ -68,7 +68,6 @@ export async function signMessage(
     const keyPair: KeyPair = await getKeyPair();
     const caver: Caver = getCaver(network);
 
-    console.log("71 =====", isExisted(network, keyPair.address));
     if (!isExisted(network, keyPair.address)) {
         const keyring: SingleKeyring = caver.wallet.keyring.create(
             keyPair.address,
@@ -164,4 +163,12 @@ export async function signAsFeePayer(
         index,
         hashser
     );
+}
+
+export async function generateWallet(
+    network: KlaytnNetwork,
+    numberOfKeyrings: number,
+) {
+    const caver: Caver = getCaver(network);
+    return caver.wallet.generate(numberOfKeyrings);
 }

@@ -64,6 +64,52 @@ export interface SendTransactionRequest {
   params: MessageRequest
 }
 
+export interface CreateFromRLPEncodingRequest {
+  method: "klay_createFromRLPEncoding";
+  params: {
+    network: string;
+    rlpEncodedKey: string;
+  }
+}
+
+
+export interface CreateWithAccountKeyLegacyRequest {
+  method: "klay_createWithAccountKeyLegacy";
+  params: {
+    network: string;
+  }
+}
+
+export interface CreateWithAccountKeyPublicRequest {
+  method: "klay_createWithAccountKeyPublic";
+  params: {
+    network: string;
+    keyPublic: string;
+  }
+}
+
+
+export interface CreateWithAccountKeyFailRequest {
+  method: "klay_createWithAccountKeyFail";
+  params: {
+    network: string;
+  }
+}
+
+export interface CreateWithAccountKeyWeightedMultiSigRequest {
+  method: "klay_createWithAccountKeyWeightedMultiSig";
+  params: {
+    network: string;
+    publicKeyArray: string[];
+  }
+}
+export interface CreateWithAccountKeyRoleBasedRequest {
+  method: "klay_createWithAccountKeyRoleBased";
+  params: {
+    network: string;
+    roledBasedPublicKeyArray: string[];
+  }
+}
 
 export type MetamaskKlaytnRpcRequest =
   | GetPublicKeyRequest
@@ -76,7 +122,13 @@ export type MetamaskKlaytnRpcRequest =
   | SignMessageRawRequest
   | SendMessageRequest
   | GetGasForMessageRequest
-  | SendTransactionRequest;
+  | SendTransactionRequest
+  | CreateFromRLPEncodingRequest
+  | CreateWithAccountKeyFailRequest
+  | CreateWithAccountKeyLegacyRequest
+  | CreateWithAccountKeyPublicRequest
+  | CreateWithAccountKeyWeightedMultiSigRequest
+  | CreateWithAccountKeyRoleBasedRequest;
 
 type Method = MetamaskKlaytnRpcRequest["method"];
 
@@ -210,6 +262,7 @@ export interface TransferStatus {
   value: string;
 }
 
+
 export type KlaytnNetwork = "cypress" | "baobab";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
@@ -230,6 +283,12 @@ export interface KlaytnSnapApi {
     maxFee?: string
   ): Promise<MessageGasEstimate>;
   sendTransaction(params: TransferRequest): Promise<TransferStatus>;
+  createFromRLPEncoding(params: { network: string, rlpEncodedKey: string }): Promise<any>;
+  createWithAccountKeyFail(params: { network: string }): Promise<any>;
+  createWithAccountKeyLegacy(params: { network: string }): Promise<any>;
+  createWithAccountKeyPublic(params: { network: string, keyPublic: string }): Promise<any>;
+  createWithAccountKeyWeightedMultiSig(params: { network: string, publicKeyArray: (string | string[])[] }): Promise<any>;
+  createWithAccountKeyRoleBased(params: { network: string, roledBasedPublicKeyArray: (string | string[])[] }): Promise<any>;
 }
 
 export interface KeyPair {
