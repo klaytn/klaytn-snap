@@ -1,8 +1,15 @@
 {
-  "extends": "../../../../tsconfig.packages.json",
   "compilerOptions": {
-    "typeRoots": ["../../../../node_modules/@types"]
-  },
-  "files": ["./node_modules/@metamask/snap-types/global.d.ts"],
-  "include": ["src"]
+    "incremental": true,
+    "target": "es2019",
+    "module": "commonjs",
+    "declaration": true,
+    "sourceMap": true,
+    "strict": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./build"
+  }
 }

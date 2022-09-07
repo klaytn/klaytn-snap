@@ -3,11 +3,11 @@
   "description": "The Klaytn Snap.",
   "proposedName": "klaytn-snap",
   "source": {
-    "shasum": "AKDICDt9YoQWELmRwDehpvKPv8D77FQEWHwL0MHIJjg=",
+    "shasum": "kxB8hFX+rSKD1CKCWotm4leIkBBIMjK1RI2VOGmx9Mc=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
-        "packageName": "klaytn-snap",
+        "packageName": "@klaytn_snap/snap",
         "registry": "https://registry.npmjs.org",
         "iconPath": "images/icon.svg"
       }
