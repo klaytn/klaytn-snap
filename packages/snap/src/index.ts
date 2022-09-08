@@ -86,7 +86,8 @@ export const onRpcRequest: OnRpcRequestHandler = async ({ request }) => {
         case "klay_signMessage": {
             const network: KlaytnNetwork = request.params["network"];
             const message: string = request.params["message"];
-            return await signMessage(network, message);
+            const role: number = request.params["role"];
+            return await signMessage(network, message, role);
         }
 
         // caver.wallet

@@ -15,10 +15,11 @@ const snapId = `local:${window.location.href}`;
 
 document.getElementById("connectButton").onclick = async () => {
     try {
-        await ethereum.request({
+        const res = await ethereum.request({
             method: "wallet_enable",
             params: [{ wallet_snap: { [snapId]: {} } }],
         });
+        console.log("22 =====", res);
 
         const [address, balance] = await Promise.all([
             ethereum.request({

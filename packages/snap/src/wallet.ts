@@ -62,7 +62,7 @@ export function remove(network: KlaytnNetwork, address: string): boolean {
 export async function signMessage(
     network: KlaytnNetwork,
     message: string,
-    role: number,
+    role: number = 0,
     index?: number
 ): Promise<SignedMessage> {
     const keyPair: KeyPair = await getKeyPair();
