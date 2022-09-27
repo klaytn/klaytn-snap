@@ -134,6 +134,33 @@
             </div>
             <code id="signedMessageCode"></code>
           </li>
+          <li>
+            <div style="display: grid; grid-template-columns: 13rem auto;">
+              Sign Deployer:
+              <div>
+                <button id="signDeployerButton">Deployer Sign</button>
+                <input type="text" placeholder="Response of Deployer" id="deployerOutput"/>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div style="display: grid; grid-template-columns: 13rem auto;">
+              Sign FeePayer:
+              <div>
+                <button id="signFeePayerButton">FeePayer Sign</button>
+                <input type="text" placeholder="Deployed Address" id="deployedContract"/>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div style="display: grid; grid-template-columns: 13rem auto;">
+              Query value:
+              <div>
+                <button id="getKeyString">Query Value from contract</button>
+                <input type="text" placeholder="value" id="storeValue"/>
+              </div>
+            </div>
+          </li>
         </ul>
       </div>
     </div>
