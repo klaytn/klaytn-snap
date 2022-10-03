@@ -6,104 +6,19 @@
   </head>
 
   <body>
-    <h1>Klaytn Snaps</h1>
-    <details>
-      <summary>Instructions</summary>
-      <ul>
-        <li>First, click "Connect". Then, try out the other buttons!</li>
-        <li>Please note that:</li>
-        <ul>
-          <li>
-            The <code>snap.manifest.json</code> and
-            <code>package.json</code> must be located in the server root
-            directory..
-          </li>
-          <li>
-            The Snap bundle must be hosted at the location specified by the
-            <code>location</code> field of <code>snap.manifest.json</code>.
-          </li>
-        </ul>
-      </ul>
-    </details>
+    <h1 style="text-align: center;">Klaytn Snaps</h1>
     <br />
-
-    <button id="connectButton">Connect</button>
-    <div>
+    <div style="margin-left: 70%;">
+      <button id="connectButton">Connect</button>
       <div>
-        <span>Address: </span>
-        <span id="addressSpan"></span>
-      </div>
-      <div>
-        <span>Balance: </span>
-        <span id="balanceSpan"></span>
-      </div>
-    </div>
-
-    <!-- Account -->
-    <hr/>
-    <div>
-      <div>
-        caver.account<br/>
-        <ul>
-          <li>
-            <div style="display: grid; grid-template-columns: 13rem auto;">
-              RLPEncoding:
-              <div>
-                <input type="text" placeholder="RLP Encoded" id="rlpEncodedInput"/>
-                <button id="rlpEncodedButton">Create</button>
-              </div>
-            </div>
-            <code id="rlpEncodedCode"> </code>
-          </li>
-          <li>
-            <div style="display: grid; grid-template-columns: 13rem auto;">
-              accountKeyLegacy:
-              <div>
-                <button id="accountKeyLegacyButton">Create</button>
-              </div>
-            </div>
-            <code id="accountKeyLegacyCode"> </code>
-          </li>
-          <li>
-            <div style="display: grid; grid-template-columns: 13rem auto;">
-              accountKeyPublic:
-              <div>
-                <input type="text" placeholder="Public Key" id="accountKeyPublicInput"/>
-                <button id="accountKeyPublicButton">Create</button>
-              </div>
-            </div>
-            <code id="accountKeyPublicCode"> </code>
-          </li>
-          <li>
-            <div style="display: grid; grid-template-columns: 13rem auto;">
-              accountKeyFail:
-              <div>
-                <button id="accountKeyFailButton">Create</button>
-              </div>
-            </div>
-            <code id="accountKeyFailCode"> </code>
-          </li>
-          <li>
-            <div style="display: grid; grid-template-columns: 13rem auto;">
-              accountKeyWeightedMultiSig:
-              <div>
-                <input type="text" placeholder="Public Key Array" id="accountKeyWeightedMultiSigInput"/>
-                <button id="accountKeyWeightedMultiSigButton">Create</button>
-              </div>
-            </div>
-            <code id="accountKeyWeightedMultiSigCode"> </code>
-          </li>
-          <li>
-            <div style="display: grid; grid-template-columns: 13rem auto;">
-              accountKeyRoleBased:
-              <div>
-                <input type="text" placeholder="Roled-based Public Key Array" id="accountKeyRoleBasedInput"/>
-                <button id="accountKeyRoleBasedButton">Create</button>
-              </div>
-            </div>
-            <code id="accountKeyRoleBasedCode"></code>
-          </li>
-        </ul>
+        <div>
+          <span>Address: </span>
+          <span id="addressSpan"></span>
+        </div>
+        <div>
+          <span>Balance: </span>
+          <span id="balanceSpan"></span>
+        </div>
       </div>
     </div>
 
@@ -111,59 +26,40 @@
     <hr/>
     <div>
       <div>
-        caver.transaction<br/>
+        Gasless Transaction <br/>
         <ul>
           <li>
             <div style="display: grid; grid-template-columns: 13rem auto;">
-              Send transaction:
+              Sign Transaction as a Deployer:
               <div>
-                <input type="text" placeholder="To address" id="toAddressInput"/>
-                <input type="text" placeholder="Amount" id="amountInput"/>
-                <button id="sendButton">Send</button>
+                <button id="signDeployerButton">Sign</button><br/>
+                <textarea type="text" disabled placeholder="Response of Deployer" id="deployerOutput"></textarea>
               </div>
             </div>
-            <code id="transactionReceiptCode"> </code>
           </li>
+          <br/><br/>
           <li>
             <div style="display: grid; grid-template-columns: 13rem auto;">
-              Sign message:
+              Deploy Contract as a FeePayer:
               <div>
-                <input type="text" placeholder="Message" id="messageInput"/>
-                <button id="signButton">Sign</button>
-              </div>
-            </div>
-            <code id="signedMessageCode"></code>
-          </li>
-          <li>
-            <div style="display: grid; grid-template-columns: 13rem auto;">
-              Sign Deployer:
-              <div>
-                <button id="signDeployerButton">Deployer Sign</button>
-                <input type="text" placeholder="Response of Deployer" id="deployerOutput"/>
+                <button id="signFeePayerButton">Deploy</button><br/>
+                <textarea type="text" disabled placeholder="Deployed Address" id="deployedContract"></textarea>
               </div>
             </div>
           </li>
-          <li>
-            <div style="display: grid; grid-template-columns: 13rem auto;">
-              Sign FeePayer:
-              <div>
-                <button id="signFeePayerButton">FeePayer Sign</button>
-                <input type="text" placeholder="Deployed Address" id="deployedContract"/>
-              </div>
-            </div>
-          </li>
+          <br/><br/>
           <li>
             <div style="display: grid; grid-template-columns: 13rem auto;">
               Query value:
               <div>
-                <button id="getKeyString">Query Value from contract</button>
-                <input type="text" placeholder="value" id="storeValue"/>
+                <button id="getKeyString">Query Value from contract</button><br/>
+                <textarea type="text" disabled placeholder="value" id="storeValue"></textarea>
               </div>
             </div>
           </li>
         </ul>
       </div>
     </div>
-
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="index.js"></script>
 </html>

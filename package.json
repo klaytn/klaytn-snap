@@ -8,6 +8,7 @@
     "clean": "rimraf dist/*",
     "build": "mm-snap build",
     "serve": "mm-snap serve",
+    "backend": "node app.js",
     "postinstall": "patch-package"
   },
   "devDependencies": {
@@ -19,5 +20,9 @@
     "rimraf": "^3.0.2",
     "underscore": "^1.13.4"
   },
-  "dependencies": {}
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.1"
+  }
 }
