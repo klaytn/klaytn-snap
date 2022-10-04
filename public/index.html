@@ -1,0 +1,106 @@
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="theme-color" content="#000000">
+  <link rel="shortcut icon" href="/images/favicon@32.png">
+  <title>Klaytn Snap Tutorial</title>
+<link href="index.css" rel="stylesheet"></head>
+<body>
+  <noscript>
+    You need to enable JavaScript to run this app.
+  </noscript>
+  <div id="root">
+    <div class="App">
+      <div class="KlaytnPage">
+        <header class="Nav">
+          <div class="Nav__inner">
+            <h1 class="Nav__logo">
+              <a href="/">
+                <img src="logo.png" alt="Klaytn Snap Tutorial">
+              </a>
+            </h1>
+            <div class="Nav__network" id="connectButton" style="cursor: pointer;">
+              Connect
+            </div>
+          </div>
+        </header>
+        <div class="KlaytnPage__main">
+          <div class="WalletInfo">
+            <h2 class="WalletInfo__title">Wallet Information</h2>
+            <div class="WalletInfo__infoBox">
+              <div class="WalletInfo__info">
+                <span class="WalletInfo__label">Wallet Address</span><span id="addressSpan">Login with MetamaskSnap :)</span>
+              </div>
+              <div class="WalletInfo__info">
+                <span class="WalletInfo__label">Balance</span>
+                <span class="WalletInfo__balance" id="balanceSpan">0</span>
+                <span class="WalletInfo__unit">KLAY</span>
+              </div>
+            </div>
+            <p class="WalletInfo__faucet">If you need small amount of Klay for testing. <a class="WalletInfo__link" href="https://baobab.wallet.klaytn.foundation/faucet" target="_blank" rel="noreferrer noopener">Run Klay Faucet</a>
+            </p>
+          </div>
+          <div class="KlaytnPage__content" id="gaslessFeature" style="display: none;">
+            <div class="Dropdown KlaytnPage__dropdown">
+              <div class="Dropdown__title">Smart Contract Deploy (Gasless Txn)</div>
+            </div>
+            <div class="KlaytnPage__txExample">
+              <h2 class="KlaytnPage__txExampleTitle">Smart Contract Deploy (Gasless Transaction)</h2>
+              <div class="ValueTransferFD">
+                <div class="BytecodeExample">
+                  <h3># abi example (Simple storage contract)</h3>
+                  <div class="AbiExample__code"></div>
+                </div>
+                <div class="BytecodeExample">
+                  <h3># bytecode example (Simple storage contract)</h3>
+                  <div class="BytecodeExample__code"></div>
+                </div>
+                <h3>Signer</h3>
+                <div class="Input">
+                  <input id="from" type="text" name="from" disabled placeholder="Signer" class="Input__input" autocomplete="off" value="">
+                </div>
+                <button class="Button" id="signDeployerButton">
+                  <span>Sign Transaction</span>
+                </button>
+                <div class="BytecodeExample">
+                  <h3>signature</h3>
+                  <div class="BytecodeExample__code" id="deployerOutput"></div>
+                </div>
+                <div class="FeeDelegation">
+                  <h3>Deploy Contract as Fee Payer</h3>
+                  <!-- <div class="Input">
+                    <input id="feePayerAddress" type="text" name="feePayerAddress" placeholder="Fee Payer Address" class="Input__input" autocomplete="off" value="">
+                  </div> -->
+                  <button class="Button" id="signFeePayerButton">
+                    <span>Deploy</span>
+                  </button>
+                  <div class="TxResult">
+                    <h3>Deployed Contract Address</h3>
+                    <div class="Input">
+                      <input id="deployedContract" disabled type="text" placeholder="" class="Input__input" autocomplete="off" value="">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--
+    This HTML file is a template.
+    If you open it directly in the browser, you will see an empty page.
+
+    You can add webfonts, meta tags, or analytics to this file.
+    The build step will place the bundled scripts into the <body> tag.
+
+    To begin the development, run `npm start` or `yarn start`.
+    To create a production bundle, use `npm run build` or `yarn build`.
+  -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.8.0/web3.min.js"></script> -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/caver-js/1.9.0/caver.min.js"></script>
+  <script src="index.js"></script>
+
+</body></html>
