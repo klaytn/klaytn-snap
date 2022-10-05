@@ -3,7 +3,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="theme-color" content="#000000">
   <link rel="shortcut icon" href="/images/favicon@32.png">
-  <title>Klaytn Snap Tutorial</title>
+  <title>Klaytn Tutorial</title>
 <link href="index.css" rel="stylesheet"></head>
 <body>
   <noscript>
@@ -29,7 +29,7 @@
             <h2 class="WalletInfo__title">Wallet Information</h2>
             <div class="WalletInfo__infoBox">
               <div class="WalletInfo__info">
-                <span class="WalletInfo__label">Wallet Address</span><span id="addressSpan">Login with MetamaskSnap :)</span>
+                <span class="WalletInfo__label">Wallet Address</span><span id="addressSpan">Login with Kaikas Wallet :)</span>
               </div>
               <div class="WalletInfo__info">
                 <span class="WalletInfo__label">Balance</span>
@@ -73,6 +73,7 @@
                   </div> -->
                   <button class="Button" id="signFeePayerButton">
                     <span>Deploy</span>
+                    <span><img id="loading" width="18px" style="visibility: hidden;" src="spinner.gif"/></span>
                   </button>
                   <div class="TxResult">
                     <h3>Deployed Contract Address</h3>
@@ -101,6 +102,7 @@
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.8.0/web3.min.js"></script> -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/caver-js/1.9.0/caver.min.js"></script>
+  <script src="constants.js"></script>
   <script src="index.js"></script>
 
 </body></html>

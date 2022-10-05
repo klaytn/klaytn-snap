@@ -3,13 +3,13 @@ const Caver = require('caver-js')
 const app = express()
 var cors = require('cors');
 var path = require('path');
-const port = 3000
+const port = process.env.APP_PORT || 3000;
 require('dotenv').config()
 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-const nodeApiUrl = 'https://api.baobab.klaytn.net:8651';
+const nodeApiUrl = process.env.RPC_URL || 'https://api.baobab.klaytn.net:8651';
 
 app.use(express.static('public'))
 
